@@ -1,16 +1,20 @@
 package com.jt.service;
 
 import com.jt.pojo.Item;
+import com.jt.pojo.ItemDesc;
 import com.jt.vo.EasyUITable;
 
 public interface ItemService {
 
 	EasyUITable findItemByPage(Integer page, Integer rows);
+	//实现关联新增
+	void saveItem(Item item, ItemDesc itemDesc);
 
-	 void saveItem(Item item);
+	void updateItem(Item item, ItemDesc itemDesc);
 
-	 void updateItem(Item item);
-	 //返回的是调用的long数组和ids  并不是item
-	void deleteItem(Long[] ids);
+	void deleteItems(Long[] ids);
+
+	void updateItemStatus(Long[] ids, Integer status);
+	ItemDesc findItemDescById(Long itemId);
 	
 }

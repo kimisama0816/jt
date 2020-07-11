@@ -8,7 +8,7 @@ import com.jt.vo.EasyUITree;
 public interface ItemCatService {
 
 	ItemCat findItemCatById(Long itemCatId);
-	
+
 	List<EasyUITree> findItemCatByParentId(Long parentId);
 
 }

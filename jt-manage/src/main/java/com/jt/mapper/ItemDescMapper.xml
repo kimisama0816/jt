@@ -1,0 +1,5 @@
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+public interface ItemDescMapper extends BaseMapper<ItemDesc>{
+
+}

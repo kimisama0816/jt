@@ -10,12 +10,17 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EasyUITree {
-
-	/*
-	 * "id":"1", "text":"英雄联盟", "iconCls":"icon-save", "children":[
-	 */
-	private Long id;		//id值     			与itemcat中的id一致
-	private String text;	//文本信息		与itemcat中的name属性一致
-	private String state;	//状态			打开:open 关闭:closed
+	// {"id":"2","text":"王者荣耀","state":"closed"}
+	private Long id;		//id值   与ItemCat中的Id一致的
+	private String text;	//文本信息   itemCat中的name属性
+	private String state;	//状态   打开:open  关闭: closed   如果是父级应该关闭
 	
 }
+
+
+
+
+
+
+
+

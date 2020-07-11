@@ -23,16 +23,15 @@
 <script>
 
     function getSelectionsIds(){
+        //通过id选择器获取列表信息
     	var itemList = $("#itemList");
-    	/*[item,item,item,item]*/
-    	//datagrid  easyUI提供的函数 获取选中的行级元素
+    	//datagrid EasyUI提供函数  获取选中的行级元素.
     	var sels = itemList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].id);		//获取其中的id之后 保存到数据组
+    		ids.push(sels[i].id);	//获取其中的Id之后保存到数据组
     	}
-    	//将数组拼接成串 1,2,3,4,5
-    	ids = ids.join(",");			//join  js的点击写法  将数组按照指定的格式拼接字符串
+    	ids = ids.join(",");		//将数组按照指定的格式拼接字符串 
     	return ids;
     }
     
@@ -52,25 +51,28 @@
         		$.messager.alert('提示','必须选择一个商品才能编辑!');
         		return ;
         	}
-        	// 通过,判断用户选择了几个数据
+        	//通过 ,号判断用户选择几个数据
         	if(ids.indexOf(',') > 0){
         		$.messager.alert('提示','只能选择一个商品!');
         		return ;
         	}
 
-        	//做完校验之后,执行弹出框操作,之后跳转到商品的修改页面href:'/page/item-edit'
+        	//做完校验之后,执行弹出框操作,  之后跳转到商品的修改页面 href:'/page/item-edit'
         	$("#itemEditWindow").window({
         		onLoad :function(){
-        			//回显数据
+        			//回显数据        EasyUI提供的查询选中数据的方法
         			var data = $("#itemList").datagrid("getSelections")[0];
         			data.priceView = KindEditorUtil.formatPrice(data.price);
+        			//页面数据的回显功能, load  页面中的name属性 与data中的key 如果一致时会自动的赋值.
         			$("#itemeEditForm").form("load",data);
         			
         			// 加载商品描述
         			//_data = SysResult.ok(itemDesc)
         			$.getJSON('/item/query/item/desc/'+data.id,function(_data){
         				if(_data.status == 200){
-        					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
+
+            				console.log(_data.data.itemDesc);
+        					//在指定的位置,显示页面html标记信息.
         					itemEditEditor.html(_data.data.itemDesc);
         				}
         			});
@@ -117,7 +119,8 @@
         text:'删除',
         iconCls:'icon-cancel',
         handler:function(){
-        	var ids = getSelectionsIds();
+            //获取用户选中的Id信息
+        	var ids = getSelectionsIds(); //字符串
         	if(ids.length == 0){
         		$.messager.alert('提示','未选中商品!');
         		return ;
@@ -125,7 +128,7 @@
         	$.messager.confirm('确认','确定删除ID为 '+ids+' 的商品吗？',function(r){
         	    if (r){
             	    //定义传递的参数
-        	    	var params = {"ids":ids};
+        	    	var params = {"ids":ids}; //写法 请求发起时会自己拼接参数.
                 	$.post("/item/delete",params, function(data){
             			if(data.status == 200){
             				$.messager.alert('提示','删除商品成功!',undefined,function(){
@@ -151,7 +154,7 @@
         	$.messager.confirm('确认','确定下架ID为 '+ids+' 的商品吗？',function(r){
         	    if (r){
         	    	var params = {"ids":ids};
-                	$.post("/item/instock",params, function(data){
+                	$.post("/item/updateStatus/2",params, function(data){
             			if(data.status == 200){
             				$.messager.alert('提示','下架商品成功!',undefined,function(){
             					$("#itemList").datagrid("reload");
@@ -173,7 +176,7 @@
         	$.messager.confirm('确认','确定上架ID为 '+ids+' 的商品吗？',function(r){
         	    if (r){
         	    	var params = {"ids":ids};
-                	$.post("/item/reshelf",params, function(data){
+                	$.post("/item/updateStatus/1",params, function(data){
             			if(data.status == 200){
             				$.messager.alert('提示','上架商品成功!',undefined,function(){
             					$("#itemList").datagrid("reload");

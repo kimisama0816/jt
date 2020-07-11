@@ -8,11 +8,12 @@
 </head>
 <body>
 	<h1>实现文件长传</h1>
-	<!--enctype="开启多媒体标签"  -->
+	<!--enctype="开启多媒体标签" 字节信息 -->
 	<form action="http://localhost:8091/file" method="post" 
 	enctype="multipart/form-data">
 		<input name="fileImage" type="file" />
 		<input type="submit" value="提交"/>
 	</form>
 </body>
+
 </html>

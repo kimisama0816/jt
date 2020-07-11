@@ -12,11 +12,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain=true)
 public class Item extends BasePojo{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -113421486821062779L;
-	@TableId(type=IdType.AUTO)
+	@TableId(type=IdType.AUTO)		//主键自增
 	private Long id;				//商品id
 	private String title;			//商品标题
 	private String sellPoint;		//商品卖点信息 字段sell_point

@@ -24,8 +24,6 @@ public class ItemCatController {
 	 * url地址: http://localhost:8091/item/cat/queryItemName?itemCatId=3
 	 * 参数:    itemCatId=3
 	 * 返回值:   商品分类名称
-	 * sql语句:
-	 * 		一级商品分类信息 parent_id = 0;select * from tb_item_cat WHERE parent_id = 0;
 	 */
 	@RequestMapping("/queryItemName")
 	public String findItemCatNameById(Long itemCatId) {
@@ -34,24 +32,25 @@ public class ItemCatController {
 		return itemCat.getName();
 	}
 	
+	
 	/**
-	 * 业务:查询商品的分类信息
-	 * url地址:/item/cat/list
-	 * 参数:暂时没有参数
-	 * 返回这结果: EasyUITree对象
+	 * 业务:查询商品分类信息,返回VO对象
+	 * url地址: /item/cat/list
+	 * 参数:  id:一级分类id值
+	 * 返回值: EasyUITree对象     
+	 * json格式:
+	 * 	[{"id":"2","text":"王者荣耀","state":"closed"},{"id":"3","text":"王者荣耀","state":"closed"}]`
 	 * sql语句:
-	 * 		一级商品分类信息 parent_id = 0;select * from tb_item_cat WHERE parent_id = 0;
+	 * 		一级商品分类信息 parent_id=0 SELECT * FROM tb_item_cat WHERE parent_id=0
 	 */
 	@RequestMapping("/list")
-	public List<EasyUITree> findItemCatByParentId
-	(@RequestParam(value="id",defaultValue = "0") Long parentId) {
-		//初始化时,应该设定一个默认值
-		//1.查询一级的商品分类信息
-		//Long parentId = id == null?0L:id;
+	public List<EasyUITree>  findItemCatByParentId
+	(@RequestParam(value = "id",defaultValue = "0") Long parentId){
+		//初始化时应该设定默认值.
+		//1.查询一级商品分类信息   
+		//Long parentId = id==null?0L:id;
 		
 		return itemCatService.findItemCatByParentId(parentId);
 	}
-	
-	
 	
 }

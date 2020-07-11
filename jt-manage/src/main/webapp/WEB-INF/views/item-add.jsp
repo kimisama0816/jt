@@ -79,8 +79,8 @@
 			$.messager.alert('提示','表单还未填写完成!');
 			return ;
 		}
-		//转化价格单位，将元转化为分  $("元素").val(100) 赋值操作|  $("元素").val()取值
-		//eval() 专门做算数运算内的封装体
+		//转化价格单位，将元转化为分   $("元素").val(100) 赋值操作 |  $("元素").val()取值
+		//eval() 专门做算数运算的封装体
 		$("#itemAddForm [name=price]").val(eval($("#itemAddForm [name=priceView]").val()) * 100);
 		itemAddEditor.sync();//将输入的内容同步到多行文本中
 		
@@ -104,25 +104,25 @@
 		paramJson = JSON.stringify(paramJson);//将对象转化为json字符串
 		
 		$("#itemAddForm [name=itemParams]").val(paramJson);
-
-
+		
 		/*
-		参数类型:
-				1. {"key":"value","key2":"value"....}少量数据提交
-				2. key=value&key2=value2....		 基于字符串拼接  少量数据提交
-		JS表单常用方法:
-				$("#itemAddForm").serialize() 将所有form表单中的数据,采用字符串中的形式自动拼接后提交
+			参数类型:
+				1.  {"key":"value","key2":"value2",......}  少量数据提交
+				2.	key=value&key2=value2......				基于字符串拼接 
 
-		关于回调函数业务说明
-				需求:确定后端服务器调用是否正确!!
-				策略说明:
-					属性1:status == 200  调用正确  status == 201 调用失败
-					属性2:msg  提交服务器相关的说明信息
-					属性3:data 服务器返回页面的业务数据  一般都是独享的JSON.
+			JS表单常用方法: 
+					$("#itemAddForm").serialize() 将所有的form表单中的数据,采用字符串的
+					形式自动拼接之后提交.
 
-				*/
-		/* alert($("#itemAddForm").serialize())
-		$.post("url地址","提交参数信息","回调函数") */
+			关于回调函数业务说明
+				需求: 确定后端服务器调用是否正确!!!!
+				策略说明: 
+					属性1: status==200 调用正确  status==201 调用失败
+					属性2: msg  提交服务器相关说明信息
+					属性3: data 服务器返回页面的业务数据  一般都是对象的JSON.
+		  */
+		//alert($("#itemAddForm").serialize())
+		//$.post("url地址","提交参数信息","回调函数")
 		$.post("/item/save",$("#itemAddForm").serialize(), function(data){
 			if(data.status == 200){
 				$.messager.alert('提示','新增商品成功!');
@@ -130,6 +130,8 @@
 				$.messager.alert("提示","新增商品失败!");
 			}
 		});
+
+		
 	}
 	
 	function clearForm(){
