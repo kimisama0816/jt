@@ -3,23 +3,31 @@ package com.jt.service;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jt.util.ImageTypeUtil;
 import com.jt.vo.ImageVO;
 
+
 @Service
+//指定配置文件,进行属性的注入 将key-value交给spring容器管理
+@PropertySource("classpath:/properties/image.properties")
 public class FileServiceImpl implements FileService {
 	
-	private String localDir = "D:/JT-SOFT/images";
-	
+	@Value("${image.localDir}")
+	private String localDir;	// = "D:/images";	 //1.优化点一
+	@Value("${image.imageUrl}")
+	private String imageUrl;  //定义url的虚拟网址
+	@Autowired
+	private ImageTypeUtil imageTypeUtil;
 
 	//bug:漏洞 一般没错  二般情况才会出错  传递特殊参数时报错     
 	//error: 错误
@@ -35,11 +43,9 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public ImageVO uploadFile(MultipartFile uploadFile) {
 		//1.校验上传的信息 是否为图片
-		//1.1初始化图片类型集合
-		Set<String>  typeSet = new HashSet<>();
-		typeSet.add(".jpg");
-		typeSet.add(".png");
-		typeSet.add(".gif");
+		//优化方式1 利用静态代码块的形式实现的.  优化方式2 利用spring方式进行优化
+		Set<String>  typeSet = imageTypeUtil.getTypeSet();
+		
 		
 		//1.2动态获取用户上传的图片类型          abc.jpg|ABC.JPG
 		String fileName = uploadFile.getOriginalFilename();
@@ -72,7 +78,9 @@ public class FileServiceImpl implements FileService {
 		File imageFile = new File(dirPath+realFileName);
 		try {
 			uploadFile.transferTo(imageFile);
-			String url = "https://img14.360buyimg.com/n0/jfs/t1/71310/32/5640/402976/5d3a654eE0489baf9/fd8eafe74ef8779c.jpg";
+			//图片访问的虚拟路径    3.
+			String url = imageUrl+dateDir+realFileName;
+			
 			return ImageVO.success(url);
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();

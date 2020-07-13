@@ -145,7 +145,7 @@
 	
 	
 	
-	
+	<!-- modules包含的是当前父级中的子级信息,进行打包操作之前要检查结构以防报错 -->
 	<modules>
 		<module>jt-common</module>
 		<module>jt-manage</module>

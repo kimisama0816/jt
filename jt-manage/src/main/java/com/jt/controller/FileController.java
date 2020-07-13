@@ -66,7 +66,6 @@ public class FileController {
 	@RequestMapping("/pic/upload")
 	public ImageVO uploadFile(MultipartFile uploadFile) {
 		
-		
 		return fileService.uploadFile(uploadFile);
 	}
 	
