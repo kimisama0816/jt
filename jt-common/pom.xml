@@ -6,6 +6,8 @@
     <groupId>com.jt</groupId>
     <artifactId>jt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    
+
   </parent>
   <artifactId>jt-common</artifactId>
 </project>

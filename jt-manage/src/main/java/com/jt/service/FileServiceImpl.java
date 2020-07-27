@@ -80,7 +80,7 @@ public class FileServiceImpl implements FileService {
 			uploadFile.transferTo(imageFile);
 			//图片访问的虚拟路径    3.
 			String url = imageUrl+dateDir+realFileName;
-			
+			System.out.println(url+"**************");
 			return ImageVO.success(url);
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
